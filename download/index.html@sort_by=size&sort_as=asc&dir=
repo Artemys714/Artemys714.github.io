@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+
+/* General styles */
+
+BODY {
+	background-color:#FFFFFF;
+	font-family:Verdana;
+	font-size:small;
+}
+
+A {
+	color: #000000;
+	text-decoration: none;
+}
+
+A:hover {
+	text-decoration: underline;
+}
+
+#top {
+	width:100%;
+	padding-bottom: 20px;
+}
+
+#top a span, #top a:hover, #top a span:hover{
+	color:#68a9d2;
+	font-weight:bold;
+	text-align:center;
+	font-size:large;
+}
+
+#top a {
+	display:block;
+	padding:20px 0 0 0;
+}
+
+#top span {
+	display:block;
+}
+
+div.subtitle{
+	width:80%;
+	margin: 0 auto;
+	color:#68a9d2;
+	text-align:center;
+}
+
+#frame {
+	border: 1px solid #CDD2D6;
+	text-align:left;
+	position: relative;
+	margin: 0 auto;
+	max-width:680px;
+	overflow:hidden;
+}
+
+#error {
+	max-width:450px;
+	background-color:#FFE4E1;
+	color:#000000;
+	padding:7pt;
+	position: relative;
+	margin: 10pt auto;
+	text-align:center;
+	border: 1px dotted #CDD2D6;
+}
+
+input {
+	border: 1px solid #CDD2D6;
+}
+
+.bar{
+	width:100%;
+	clear:both;
+	height:1px;
+}
+
+/* File list */
+
+table.table {
+	width:100%;
+	border-collapse: collapse;
+}
+
+table.table td{
+	padding:3px;
+}
+
+table.table tr.row.two {
+	background-color:#fcfdfe;
+}
+
+table.table tr.row.one {
+	background-color:#f8f9fa;
+}
+
+table.table tr.row td.icon {
+	width:25px;
+	padding-top:3px;
+	padding-bottom:1px;
+}
+
+table.table td.del {
+	width:25px;
+}
+
+table.table tr.row td.size {
+	width: 100px;
+	text-align: right;
+}
+
+table.table tr.row td.changed {
+	width: 150px;
+	text-align: center;
+}
+
+table.table tr.header img {
+	vertical-align:bottom;
+}
+
+table img{
+	border:0;
+}
+
+/* Info area */
+
+#info {
+	color:#000000;
+	font-family:Verdana;
+	max-width:680px;
+	position: relative;
+	margin: 0 auto;
+	text-align:center;
+}
+
+/* Thumbnail area */
+
+#thumb {
+	position:absolute;
+	border: 1px solid #CDD2D6;
+	background:#f8f9fa;
+	display:none;
+	padding:3px;
+}
+
+#thumb img {
+	display:block;
+}
+
+/* Login bar (at the bottom of the page) */
+#login_bar {
+	margin: 0 auto;
+	margin-top:2px;
+	max-width:680px;
+}
+
+#login_bar input.submit{
+	float:right;
+}
+
+/* Upload area */
+
+#upload {
+	margin: 0 auto;
+	margin-top:2px;
+	max-width:680px;
+}
+
+#upload #password_container {
+	margin-right:20px;
+}
+
+#upload #newdir_container, #upload #password_container {
+	float:left;
+}
+
+#upload #upload_container{
+	float:right;
+}
+
+#upload input.upload_dirname, #upload input.upload_password{
+	width:140px;
+}
+
+#upload input.upload_file{
+	font-size:small;
+}
+
+/* Breadcrumbs */
+
+div.breadcrumbs {
+	display:block;
+	padding:1px 3px;
+	color:#cccccc;
+	font-size:x-small;
+}
+
+div.breadcrumbs a{
+	display:inline-block;
+	color:#cccccc;
+	padding:2px 0;
+	font-size:small;
+}
+
+/* Login area */
+
+#login {
+	max-width:280px;
+	text-align:right;
+	margin:15px auto 50px auto;
+}
+
+#login div {
+	display:block;
+	width:100%;
+	margin-top:5px;
+}
+
+#login label{
+	width: 120px;
+	text-align: right;
+}
+
+/* Mobile interface */
+
+body.mobile #frame, body.mobile #info, body.mobile #upload {
+	max-width:none;
+}
+
+body.mobile {
+	font-size:medium;
+}
+
+body.mobile a.item {
+	display:block;
+	padding:10px 0;
+}
+
+body.mobile a.item span.size {
+	float:right;
+	margin-left:10px;
+}
+
+body.mobile table.table {
+	margin-bottom:30px;
+}
+
+body.mobile table.table tr td {
+	border-top: 1px solid #CDD2D6;
+}
+
+body.mobile table.table tr.last td {
+	border-bottom: 1px solid #CDD2D6;
+}
+
+body.mobile #top {
+	padding-bottom:3px;
+}
+
+body.mobile #top a {
+	padding-top:3px;
+}
+
+body.mobile #upload #password_container, body.mobile #upload #upload_container, body.mobile #upload #newdir_container {
+	float:none;
+	margin-top:5px;
+}
+
+body.mobile #upload input.upload_dirname, body.mobile #upload input.upload_password{
+	width:240px;
+}
+
+body.mobile #upload {
+	margin-bottom:15px;
+}
+
+</style>
+
+<!-- <meta charset="UTF-8" /> -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready(function() {
+		function positionThumbnail(e) {
+			xOffset = 30;
+			yOffset = 10;
+			$("#thumb").css("left",(e.clientX + xOffset) + "px");
+
+			diff = 0;
+			if(e.clientY + $("#thumb").height() > $(window).height())
+				diff = e.clientY + $("#thumb").height() - $(window).height();
+
+			$("#thumb").css("top",(e.pageY - yOffset - diff) + "px");
+		}
+
+		$("a.thumb").hover(function(e){
+			$("#thumb").remove();
+			$("body").append("<div id=\"thumb\"><img src=\"?thumb="+ $(this).attr("href") +"\" alt=\"Preview\" \/><\/div>");
+			positionThumbnail(e);
+			$("#thumb").fadeIn("medium");
+		},
+		function(){
+			$("#thumb").remove();
+		});
+
+		$("a.thumb").mousemove(function(e){
+			positionThumbnail(e);
+			});
+
+		$("a.thumb").click(function(e){$("#thumb").remove(); return true;});
+	});
+//]]>
+</script>
+<title>Explorer</title>
+</head>
+<body class="standard">
+<div id="frame">
+<div id="top">
+	<center><img width="200" height="200" src="http://moveax.eu/files/logo.png"></center>
+</div>
+<div class="breadcrumbs">
+<a href="?dir=">Root</a>
+</div>
+
+<!-- START: List table -->
+<table class="table">
+<tr class="row one header">
+	<td class="icon"> </td>
+	<td class="name"><a href="?sort_by=name&amp;sort_as=asc&amp;dir=">
+			File name <img style="border:0;" alt="asc" src="?img=arrow_down" /></a></td>
+	<td class="size"><a href="?sort_by=size&amp;sort_as=desc&amp;dir=">
+			Size <img style="border:0;" alt="desc" src="?img=arrow_up" /></a></td>
+	<td class="changed"><a href="?sort_by=mod&amp;sort_as=asc&amp;dir=">
+			Last updated <img style="border:0;" alt="asc" src="?img=arrow_down" /></a></td>
+	</tr>
+<tr class="row two">
+	<td class="icon"><img alt="dir" src="?img=directory" /></td>
+	<td colspan="3" class="long">
+		<a class="item" href="?dir=">..</a>
+	</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="h" src="?img=h" /></td>
+<td class="name">
+		<a href="xorstr.h" class="item file">xorstr.h</a>
+</td>
+<td class="size">554 B</td>
+<td class="changed">17.11.16 23:48:49</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="html" src="?img=html" /></td>
+<td class="name">
+		<a href="xorgen.html" class="item file">xorgen.html</a>
+</td>
+<td class="size">2.06 KB</td>
+<td class="changed">17.11.16 23:48:48</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="CommentSpam%20VK.rar" class="item file">CommentSpam VK.rar</a>
+</td>
+<td class="size">27.18 KB</td>
+<td class="changed">02.03.17 05:49:24</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="Noir-csgo.rar" class="item file">Noir-csgo.rar</a>
+</td>
+<td class="size">58.4 KB</td>
+<td class="changed">27.10.16 05:57:44</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="exe" src="?img=exe" /></td>
+<td class="name">
+		<a href="directx9_example.exe" class="item file">directx9_example.exe</a>
+</td>
+<td class="size">131.5 KB</td>
+<td class="changed">25.04.17 15:04:37</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="Chlenix-csgo.rar" class="item file">Chlenix-csgo.rar</a>
+</td>
+<td class="size">261.74 KB</td>
+<td class="changed">27.10.16 05:59:03</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="finalware-csgo.rar" class="item file">finalware-csgo.rar</a>
+</td>
+<td class="size">304.93 KB</td>
+<td class="changed">27.10.16 05:57:10</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="indigocsgo.rar" class="item file">indigocsgo.rar</a>
+</td>
+<td class="size">1.8 MB</td>
+<td class="changed">02.07.17 14:01:28</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="vBulletinSpammer.rar" class="item file">vBulletinSpammer.rar</a>
+</td>
+<td class="size">1.91 MB</td>
+<td class="changed">19.10.16 18:33:24</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="MIDNIGHT_CS16_Beta.rar" class="item file">MIDNIGHT_CS16_Beta.rar</a>
+</td>
+<td class="size">3.84 MB</td>
+<td class="changed">07.06.17 22:19:55</td>
+</tr>
+<tr class="row one">
+<td class="icon"><img alt="rar" src="?img=rar" /></td>
+<td class="name">
+		<a href="indigo.rar" class="item file">indigo.rar</a>
+</td>
+<td class="size">4.23 MB</td>
+<td class="changed">20.04.17 23:05:47</td>
+</tr>
+<tr class="row two">
+<td class="icon"><img alt="apk" src="?img=apk" /></td>
+<td class="name">
+		<a href="TeamSpeak3_3.0.23.0_Cracked.apk" class="item file">TeamSpeak3_3.0.23.0_Cracked.apk</a>
+</td>
+<td class="size">13.48 MB</td>
+<td class="changed">04.04.17 12:17:35</td>
+</tr>
+<tr class="row one last">
+<td class="icon"><img alt="apk" src="?img=apk" /></td>
+<td class="name">
+		<a href="TeamSpeak_3.1.2.apk" class="item file">TeamSpeak_3.1.2.apk</a>
+</td>
+<td class="size">23.15 MB</td>
+<td class="changed">04.04.17 12:12:45</td>
+</tr>
+
+</table>
+<!-- END: List table -->
+</div>
+
+<!-- START: Info area -->
+<div id="info">
+Page loaded in 12.32 ms | <a href="http://Blick1337.pro">Blick1337</a></div>
+<!-- END: Info area -->
+</body>
+</html>
+
